@@ -15,7 +15,7 @@ public class Configuration {
 	
 	
 
-	public Configuration addAnnotatedClass(Class annotatedClass) {
+	public Configuration addAnnotatedClass(Class<?> annotatedClass) {
 
 		if (metaModelList == null) {
 			metaModelList = new LinkedList<>();

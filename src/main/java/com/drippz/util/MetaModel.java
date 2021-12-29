@@ -90,9 +90,7 @@ public class MetaModel<T> {
 				return new SerialKeyField(field);
 			}
 		}
-
 		throw new RuntimeException("Did not find a field annotated with @SerialKey in " + clazz.getName());
-
 	}
 
 	public List<ForeignKeyField> getForeignKeys() {
