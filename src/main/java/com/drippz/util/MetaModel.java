@@ -8,14 +8,12 @@ import com.drippz.annotations.Column;
 import com.drippz.annotations.Entity;
 import com.drippz.annotations.Id;
 import com.drippz.annotations.JoinColumn;
-import com.drippz.annotations.SerialKey;
 
 public class MetaModel<T> {
 
 	private Class<?> clazz;
 
 	private PrimaryKeyField primaryKeyField;
-	private SerialKeyField serialKeyField;
 
 	private List<ColumnField> columnFields;
 	private List<ForeignKeyField> foreignKeyFields;
@@ -35,7 +33,6 @@ public class MetaModel<T> {
 		this.clazz = clazz;
 		this.columnFields = new LinkedList<>();
 		this.foreignKeyFields = new LinkedList<>();
-
 
 	}
 
@@ -77,20 +74,6 @@ public class MetaModel<T> {
 
 		throw new RuntimeException("Did not find a field annotated with @Id in " + clazz.getName());
 
-	}
-	
-	public SerialKeyField getSerialKey() {
-
-		Field[] fields = clazz.getDeclaredFields();
-
-		for (Field field : fields) {
-			SerialKey serialKey = field.getAnnotation(SerialKey.class);
-
-			if (serialKey != null) {
-				return new SerialKeyField(field);
-			}
-		}
-		throw new RuntimeException("Did not find a field annotated with @SerialKey in " + clazz.getName());
 	}
 
 	public List<ForeignKeyField> getForeignKeys() {

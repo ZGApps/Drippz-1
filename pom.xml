@@ -22,11 +22,17 @@
 		</dependency>
 
 
-		<!-- for logging! (this is a library) -->
+		<!-- Still using outdated version as I know how it works and don't have to figure out the new one... -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>3.4.5</version>
 		</dependency>
 
 	</dependencies>
