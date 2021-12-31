@@ -8,6 +8,7 @@ import com.drippz.annotations.Column;
 import com.drippz.annotations.Entity;
 import com.drippz.annotations.Id;
 import com.drippz.annotations.JoinColumn;
+import com.drippz.customexceptions.ClassHasNoNameException;
 
 public class MetaModel<T> {
 
@@ -35,7 +36,20 @@ public class MetaModel<T> {
 		this.foreignKeyFields = new LinkedList<>();
 
 	}
-
+	public String getEntityName() {
+		String entityName = clazz.getAnnotation(Entity.class).entityName();
+		
+		if ((entityName != "")) {
+			return entityName;
+		}
+		else {
+			entityName = clazz.getSimpleName();
+			if ((entityName != ""))
+			return entityName;
+		}
+		throw new ClassHasNoNameException("Class Name not assigned, and Class is Annonymous or not present in source");
+	}
+	
 	// return all column fields of a metamodeled class
 	public List<ColumnField> getColumns() {
 

@@ -1,9 +1,14 @@
 package com.drippz.util;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.sql.DataSource;
+
+import com.drippz.connections.DScreator;
 
 public class Configuration {
 
@@ -29,13 +34,10 @@ public class Configuration {
 	}
 
 	// return a connection object or call on a seperate class like connection Util
-	public Connection getConnection(String dbURL, String dbUsername, String dbPassword) {
-
-		// TODO Connection Pool link HERE
-		// TODO Figure out how to get the INPUT for loging into the DB from the props
-		// file in the implementing project?
-		// you can access the instance variables of the config object
-		// this is up to your creativity -- connect to DB somehow
-		return null;
+	public Connection getConnection(String dbURL, String dbUsername, String dbPassword) throws SQLException {
+		DataSource ds = DScreator.getDataSource();
+		Connection connection = null;
+		connection = ds.getConnection();
+		return connection;
 	}
 }
