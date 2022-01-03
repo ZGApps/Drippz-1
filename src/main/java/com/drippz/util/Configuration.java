@@ -17,6 +17,7 @@ public class Configuration {
 	private String dbPassword;
 
 	private List<MetaModel<Class<?>>> metaModelList;
+	private MetaModel<Class<?>> singleModel;
 
 	public Configuration addAnnotatedClass(Class<?> annotatedClass) {
 
@@ -27,10 +28,22 @@ public class Configuration {
 		metaModelList.add(MetaModel.of(annotatedClass));
 		return this;
 	}
+	
+	public Configuration makeSingleModel(Class<?> annotatedClass) {
+		
+		singleModel = MetaModel.of(annotatedClass);
+		
+		return this;
+		
+	}
 
 	public List<MetaModel<Class<?>>> getMetaModels() {
 
 		return (metaModelList == null) ? Collections.emptyList() : metaModelList;
+	}
+	
+	public MetaModel<Class<?>> getSingleModel(){
+		return singleModel;
 	}
 
 	// return a connection object or call on a seperate class like connection Util

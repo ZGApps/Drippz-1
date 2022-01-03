@@ -5,22 +5,39 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
 import com.drippz.connections.DScreator;
+import com.drippz.util.Configuration;
+import com.drippz.util.MetaModel;
+import com.drippz.statements.StatementBuilder;
+import com.drippz.testing.TestModel;
 
 public class ConnectionTest {
 
 	public static void main(String[] args) {
 		ConnectionTest dsDemo = new ConnectionTest();
-		dsDemo.displayEmployees();
-		dsDemo.displayEmployeeById(1);
+//		dsDemo.displayEmployees();
+//		dsDemo.displayEmployeeById(1);
+		MetaModel<?> meta = MetaModel.of(TestModel.class);
+		StatementBuilder.createCreateStatement(meta);
 	}
 
 	private void displayEmployeeById(int id) {
+		
+		Configuration cfg = new Configuration();
 		Connection connection = null;
-		String selectSQL = "SELECT * FROM employees WHERE id = ?";
+		List<String> target = new ArrayList<String>();
+		target.add("*");
+		Map<String, String> options = new HashMap<String, String>();
+		options.put("id =", "1");
+		String selectSQL = StatementBuilder.createGetOrSelectOrUpdateOrDeleteStatement("get", target, (HashMap<String, String>) options, cfg.makeSingleModel(TestModel.class).getSingleModel());
+		System.out.println(selectSQL);
 		PreparedStatement prepStmt = null;
 		try {
 			DataSource ds = DScreator.getDataSource();
@@ -48,7 +65,12 @@ public class ConnectionTest {
 
 	private void displayEmployees() {
 		Connection connection = null;
-		String sql = "SELECT * FROM employees";
+		Configuration cfg = new Configuration();
+		List<String> target = new ArrayList<String>();
+		target.add("first_name");
+		target.add("last_name");
+		Map<String, String> options = new HashMap<String, String>();
+		String sql = StatementBuilder.createGetOrSelectOrUpdateOrDeleteStatement("get", target, (HashMap<String, String>) options, cfg.makeSingleModel(TestModel.class).getSingleModel());
 		
 		try {
 			DataSource ds = DScreator.getDataSource();
@@ -57,7 +79,7 @@ public class ConnectionTest {
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			while (rs.next()) {
-				System.out.println("id: " + rs.getInt("id"));
+//				System.out.println("id: " + rs.getInt("id"));
 				System.out.println("First Name: " + rs.getString("first_name"));
 				System.out.println("Last Name: " + rs.getString("last_name"));
 			}

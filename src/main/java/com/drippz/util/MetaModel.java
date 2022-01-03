@@ -34,6 +34,22 @@ public class MetaModel<T> {
 		this.clazz = clazz;
 		this.columnFields = new LinkedList<>();
 		this.foreignKeyFields = new LinkedList<>();
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field : fields) {
+			if (field.isAnnotationPresent(Id.class)) {
+				primaryKeyField = new PrimaryKeyField(field);
+				continue;
+			}
+			if (field.isAnnotationPresent(Column.class)) {
+				this.columnFields.add(new ColumnField(field));
+				continue;
+			}
+			if (field.isAnnotationPresent(JoinColumn.class)) {
+				this.foreignKeyFields.add(new ForeignKeyField(field));
+			}
+		}
+		
+
 
 	}
 	public String getEntityName() {

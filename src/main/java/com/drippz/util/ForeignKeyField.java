@@ -2,7 +2,7 @@ package com.drippz.util;
 
 import java.lang.reflect.Field;
 
-import com.drippz.annotations.Column;
+import com.drippz.annotations.JoinColumn;
 
 public class ForeignKeyField {
 
@@ -12,7 +12,7 @@ public class ForeignKeyField {
 	public ForeignKeyField(Field field) {
 		
 		
-		if (field.getAnnotation(Column.class) == null) {
+		if (field.getAnnotation(JoinColumn.class) == null) {
 			throw new IllegalStateException("Column Creation failed. no Column annotation found in field " + getName() +".");
 		}
 		
@@ -24,11 +24,14 @@ public class ForeignKeyField {
 		return field.getName();
 	}
 
-	public Class<?> getType() {
-		return field.getType();
+	public String getColumnName() {
+		return field.getAnnotation(JoinColumn.class).columnName();
 	}
 	
-	public String getColumnName() {
-		return field.getAnnotation(Column.class).columnName();
+	public String getTargetEntity() {
+		return field.getAnnotation(JoinColumn.class).targetEntity();
+	}
+	public String getTargetColumn() {
+		return field.getAnnotation(JoinColumn.class).targetColumn();
 	}
 }

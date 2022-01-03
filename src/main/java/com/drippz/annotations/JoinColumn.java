@@ -10,5 +10,7 @@ import java.lang.annotation.Target;
 public @interface JoinColumn {
 
 	String columnName() default "";
+	String targetEntity();
+	String targetColumn();
 
 }
