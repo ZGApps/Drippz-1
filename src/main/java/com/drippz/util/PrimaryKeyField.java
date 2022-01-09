@@ -3,6 +3,7 @@ package com.drippz.util;
 import java.lang.reflect.Field;
 
 import com.drippz.annotations.Column;
+import com.drippz.annotations.Id;
 
 public class PrimaryKeyField {
 	private Field field;
@@ -10,7 +11,7 @@ public class PrimaryKeyField {
 	public PrimaryKeyField(Field field) {
 		
 		
-		if (field.getAnnotation(Column.class) == null) {
+		if (field.getAnnotation(Id.class) == null) {
 			throw new IllegalStateException("Column Creation failed. no Column annotation found in field " + getName() +".");
 		}
 		
@@ -27,6 +28,6 @@ public class PrimaryKeyField {
 	}
 	
 	public String getColumnName() {
-		return field.getAnnotation(Column.class).columnName();
+		return field.getAnnotation(Id.class).columnName();
 	}
 }

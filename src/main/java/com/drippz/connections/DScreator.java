@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class DScreator {
-
+	private static String mode;
 	private static Logger logger = Logger.getLogger(DScreator.class);
 	
 	private static HikariDataSource ds;
@@ -24,6 +24,7 @@ public class DScreator {
 		String url = "";
 		String username = "";
 		String password = "";
+
 	
 
 			Properties prop = getPropsFile();
@@ -31,6 +32,7 @@ public class DScreator {
 			System.out.println(url);
 			username = prop.getProperty("username");
 			password = prop.getProperty("password");
+			mode = prop.getProperty("mode");
 
 			HikariConfig config = new HikariConfig();
 			config.setDriverClassName("org.postgresql.Driver");;
@@ -46,6 +48,9 @@ public class DScreator {
 	}
 	public static DataSource getDataSource() {
 		return ds;
+	}
+	public static String getMode() {
+		return mode;
 	}
 	
 	private static Properties getPropsFile() {
@@ -71,6 +76,7 @@ public class DScreator {
 		return p;
 
 	}
+
 }
 
 

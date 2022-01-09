@@ -12,9 +12,6 @@ import com.drippz.connections.DScreator;
 
 public class Configuration {
 
-	private String dbURL;
-	private String dbUsername;
-	private String dbPassword;
 
 	private List<MetaModel<Class<?>>> metaModelList;
 	private MetaModel<Class<?>> singleModel;
@@ -28,29 +25,47 @@ public class Configuration {
 		metaModelList.add(MetaModel.of(annotatedClass));
 		return this;
 	}
-	
+
 	public Configuration makeSingleModel(Class<?> annotatedClass) {
-		
+
 		singleModel = MetaModel.of(annotatedClass);
-		
+
 		return this;
-		
+
 	}
 
 	public List<MetaModel<Class<?>>> getMetaModels() {
 
 		return (metaModelList == null) ? Collections.emptyList() : metaModelList;
 	}
-	
-	public MetaModel<Class<?>> getSingleModel(){
+
+	public MetaModel<Class<?>> getSingleModel() {
 		return singleModel;
 	}
 
 	// return a connection object or call on a seperate class like connection Util
-	public Connection getConnection(String dbURL, String dbUsername, String dbPassword) throws SQLException {
+	public Connection getConnection() throws SQLException {
 		DataSource ds = DScreator.getDataSource();
 		Connection connection = null;
 		connection = ds.getConnection();
 		return connection;
+	}
+
+	public boolean closeConnection(Connection con) {
+
+		if (con != null) {
+			try {
+				con.close();
+				return true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public String getMode() {
+		return DScreator.getMode();
 	}
 }

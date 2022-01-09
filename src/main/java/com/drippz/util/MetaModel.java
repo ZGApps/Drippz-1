@@ -17,7 +17,7 @@ public class MetaModel<T> {
 	private PrimaryKeyField primaryKeyField;
 
 	private List<ColumnField> columnFields;
-	private List<ForeignKeyField> foreignKeyFields;
+	private LinkedList<ForeignKeyField> foreignKeyFields;
 
 	// check for @Entity annotation
 	public static MetaModel<Class<?>> of(Class<?> clazz) {
@@ -49,9 +49,8 @@ public class MetaModel<T> {
 			}
 		}
 		
-
-
 	}
+	
 	public String getEntityName() {
 		String entityName = clazz.getAnnotation(Entity.class).entityName();
 		
@@ -106,7 +105,7 @@ public class MetaModel<T> {
 
 	}
 
-	public List<ForeignKeyField> getForeignKeys() {
+	public LinkedList<ForeignKeyField> getForeignKeys() {
 
 		Field[] fields = clazz.getDeclaredFields();
 
@@ -119,10 +118,6 @@ public class MetaModel<T> {
 			}
 		}
 
-		if (foreignKeyFields.isEmpty()) {
-			throw new RuntimeException("No columns found in: " + clazz.getName());
-		}
-
 		return foreignKeyFields;
 	}
 
@@ -133,5 +128,11 @@ public class MetaModel<T> {
 	public String getSimpleClassName() {
 		return clazz.getSimpleName();
 	}
+
+
+
+
+
+
 
 }

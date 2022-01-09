@@ -1,98 +1,195 @@
 package com.drippz.testing;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.sql.DataSource;
-
-import com.drippz.connections.DScreator;
-import com.drippz.util.Configuration;
-import com.drippz.util.MetaModel;
-import com.drippz.statements.StatementBuilder;
-import com.drippz.testing.TestModel;
+import com.drippz.Dripp;
 
 public class ConnectionTest {
 
 	public static void main(String[] args) {
-		ConnectionTest dsDemo = new ConnectionTest();
-//		dsDemo.displayEmployees();
-//		dsDemo.displayEmployeeById(1);
-		MetaModel<?> meta = MetaModel.of(TestModel.class);
-		StatementBuilder.createCreateStatement(meta);
+		Dripp dripp = null;
+		try {
+			 dripp = new Dripp();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TestModel testObject = new TestModel("Agent", "Smith");
+		TestModel otherTestObject = new TestModel("John", "West");
+		List<String> targetFields = new ArrayList<String>();
+		targetFields.add("first_name");
+		targetFields.add("last_name");
+		LinkedHashMap<String, String> constraints = new LinkedHashMap<String, String>();
+		constraints.put("id", "2");
+		
+		
+		try {
+			createTableTest(TestModel.class, dripp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			insertToTableTest(testObject, dripp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			insertToTableTest(otherTestObject, dripp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			insertToTableTest(testObject, dripp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		try {
+			displayEmployeeById(TestModel.class, targetFields, constraints, dripp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			displayEmployees(TestModel.class, dripp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		testObject.setId(2);
+		try {
+			updateEmployee(testObject, targetFields, dripp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			displayEmployeeById(TestModel.class, targetFields, constraints, dripp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			displayEmployees(TestModel.class, dripp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
-	private void displayEmployeeById(int id) {
+	private static void updateEmployee(TestModel testObject, List<String> targetFields, Dripp dripp) throws SQLException {
 		
-		Configuration cfg = new Configuration();
-		Connection connection = null;
-		List<String> target = new ArrayList<String>();
-		target.add("*");
-		Map<String, String> options = new HashMap<String, String>();
-		options.put("id =", "1");
-		String selectSQL = StatementBuilder.createGetOrSelectOrUpdateOrDeleteStatement("get", target, (HashMap<String, String>) options, cfg.makeSingleModel(TestModel.class).getSingleModel());
-		System.out.println(selectSQL);
-		PreparedStatement prepStmt = null;
 		try {
-			DataSource ds = DScreator.getDataSource();
-			connection = ds.getConnection();
-			prepStmt = connection.prepareStatement(selectSQL);
-			prepStmt.setInt(1, id);
-			ResultSet rs = prepStmt.executeQuery();
-			while (rs.next()) {
-				System.out.println("id: " + rs.getInt("id"));
-				System.out.println("First Name: " + rs.getString("first_name"));
-				System.out.println("Last Name: " + rs.getString("last_name"));
-			}
-		} catch (SQLException e) {
+			dripp.modify(testObject, targetFields);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		dripp.runTxUpdate();
+
+
+		
+	}
+
+	private static void displayEmployeeById(Class<?> annotatedClass, List<String> targets, LinkedHashMap<String, String> constraints,
+			Dripp dripp) throws SQLException {
+
+		ResultSet rs = null;
+
+		dripp.get(annotatedClass, targets, constraints);
+
+		rs = dripp.runTxQuery();
+
+		while (rs.next()) {
+
+			System.out.println("PK " + constraints.get("id") + ": " + rs.getString(1) + " " + rs.getString(2));
+			System.out.println();
+		}
+
+	}
+
+	private static void displayEmployees(Class<?> annotatedClass, Dripp dripp) throws SQLException {
+
+		ResultSet rs = null;
+		List<String> all = new ArrayList<String>();
+		all.add("*");
+		LinkedHashMap<String, String> any = new LinkedHashMap<String, String>();
+		dripp.get(annotatedClass, all, any);
+
+		rs = dripp.runTxQuery();
+		while (rs.next()) {
+
+			System.out.println(rs.getInt(1) + ": " + rs.getString(2) + " " + rs.getString(3));
+			System.out.println();
+
 		}
 	}
 
-	private void displayEmployees() {
-		Connection connection = null;
-		Configuration cfg = new Configuration();
-		List<String> target = new ArrayList<String>();
-		target.add("first_name");
-		target.add("last_name");
-		Map<String, String> options = new HashMap<String, String>();
-		String sql = StatementBuilder.createGetOrSelectOrUpdateOrDeleteStatement("get", target, (HashMap<String, String>) options, cfg.makeSingleModel(TestModel.class).getSingleModel());
+	private static void createTableTest(Class<?> annotatedClass, Dripp dripp) throws SQLException {
+
+		dripp.beginTx();
+
+		dripp.create(TestModel.class);
+
+		dripp.commit();
+		dripp.runTxUpdate();
+
+	}
+
+	private static void insertToTableTest(Object testobject, Dripp dripp) throws SQLException {
+		
+		ResultSet rs = null;
 		
 		try {
-			DataSource ds = DScreator.getDataSource();
-			connection = ds.getConnection();
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			
-			while (rs.next()) {
-//				System.out.println("id: " + rs.getInt("id"));
-				System.out.println("First Name: " + rs.getString("first_name"));
-				System.out.println("Last Name: " + rs.getString("last_name"));
-			}
-		} catch (SQLException e) {
+			 dripp.insert(testobject);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
+		
+		rs = dripp.runTxQuery();
+		while (rs.next()) {
+
+			System.out.println("Returned PK: " + rs.getInt(1));
+			System.out.println();
+
+		}
+		
 	}
+
+//	LinkedHashMap<String, String> columnsAndValues;
+//	try {
+//		columnsAndValues = Reader.getColumnsAndValues(testObject);
+//	} catch (IllegalArgumentException | IllegalAccessException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
+//	for(String k : columnsAndValues.keySet()) {
+//		
+//	}
+
 }

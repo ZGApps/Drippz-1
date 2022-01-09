@@ -21,8 +21,16 @@
 			<version>42.2.5</version>
 		</dependency>
 
+		<!-- JUnitTesting Dependency -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
 
-		<!-- Still using outdated version as I know how it works and don't have to figure out the new one... -->
+		<!-- Still using outdated version as I know how it works and don't have 
+			to figure out the new one... -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
