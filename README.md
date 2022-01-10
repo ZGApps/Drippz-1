@@ -19,7 +19,7 @@
 
 List of features ready and TODOs for future development  
 * Simple to use API.  
-* No need for SQL, HQL, or any databse specific language.
+* No need to directly use SQL.
 * Simple Annotation based for ease of use. (Primary Key is required)
 * Methods for performing operations with the input of an annotated class or Object of that class depending on the function
 * Create: Annotated Class
@@ -28,8 +28,8 @@ List of features ready and TODOs for future development
 * Update: Object of Annotated Class, List<String> of field names (Uses ID of Object to determine which row to edit)(Must Specify the name of the column in the table here) (Returns number of rows changed in Result Set if successful)
 
 To-do list: [`for future iterations`]
-* Implement Delete Function   
-* Bridge Hikari's Logger to Log4j to resolve startup red output
+* Implement Delete Data Function   
+* Bridge Hikari's Logger to Log4j to resolve startup output
 * Test Join Collumn Functionality
  
 
