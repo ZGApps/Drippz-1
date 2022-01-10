@@ -19,7 +19,7 @@
 
 List of features ready and TODOs for future development  
 * Simple to use API.  
-* No need for SQL, HQL, or any databse specific language.
+* No need to directly use SQL.
 * Simple Annotation based for ease of use. (Primary Key is required)
 * Methods for performing operations with the input of an annotated class or Object of that class depending on the function
 * Create: Annotated Class
