@@ -28,7 +28,7 @@ List of features ready and TODOs for future development
 * Update: Object of Annotated Class, List<String> of field names (Uses ID of Object to determine which row to edit)(Must Specify the name of the column in the table here) (Returns number of rows changed in Result Set if successful)
 
 To-do list: [`for future iterations`]
-* Implement Delete Function   
+* Implement Delete Data Function   
 * Bridge Hikari's Logger to Log4j to resolve startup red output
 * Test Join Collumn Functionality
  
