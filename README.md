@@ -29,7 +29,7 @@ List of features ready and TODOs for future development
 
 To-do list: [`for future iterations`]
 * Implement Delete Data Function   
-* Bridge Hikari's Logger to Log4j to resolve startup red output
+* Bridge Hikari's Logger to Log4j to resolve startup output
 * Test Join Collumn Functionality
  
 
