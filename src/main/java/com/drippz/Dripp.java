@@ -47,10 +47,11 @@ public class Dripp {
 
 	public ResultSet runTxQuery() throws SQLException {
 		log.info("Full send SQL: " + sql.toString());
-		if (sql.toString().contains("GET")) {
+		if (sql.toString().contains("SELECT")) {
 			for (String key : drippCache.keySet()) {
 				if (key.equals(sql.toString())) {
 					log.info("Returned result from Cache");
+					System.out.println("returning from Cache where Key = " + sql.toString());
 					return drippCache.get(sql.toString());
 				}
 			}
@@ -58,7 +59,10 @@ public class Dripp {
 
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql.toString());
+		if (sql.toString().contains("SELECT")) {
 		store(sql.toString(), rs);
+		System.out.println("Stored in cache where Key = " + sql.toString());
+		}
 		sql = new StringBuilder();
 		return rs;
 	}
@@ -85,12 +89,13 @@ public class Dripp {
 
 	public void get(Class<?> annotatedClass, List<String> targetFields, LinkedHashMap<String, String> constraints)
 			throws SQLException {
+		
 		setSQL(StatementBuilder.createGetStatement(targetFields, constraints, MetaModel.of(annotatedClass)));
 
 	}
 
 	public void insert(Object objectOfAnnotatedClass) throws IllegalArgumentException, IllegalAccessException {
-
+		sql = new StringBuilder();
 		addToSQL(StatementBuilder.createInsertStatement(objectOfAnnotatedClass));
 	}
 

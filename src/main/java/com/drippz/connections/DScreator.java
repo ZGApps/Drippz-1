@@ -52,8 +52,6 @@ public class DScreator {
 	
 	private static Properties getPropsFile() {
 		
-		
-		
 		Properties p = new Properties();
 		String loc = "D:\\Programming\\Revature\\Project1\\Project1Demo\\src\\main\\resources\\drippz.props";
 		String targetName = "drippz.props";
