@@ -1,14 +1,15 @@
 package com.drippz.connections;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 
+import com.drippz.testing.TestModel;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -23,8 +24,7 @@ public class DScreator {
 		String url = "";
 		String username = "";
 		String password = "";
-
-	
+		
 
 			Properties prop = getPropsFile();
 			url = prop.getProperty("DB_URL");
@@ -40,6 +40,8 @@ public class DScreator {
 			config.addDataSourceProperty("cachePrepStmts", "true");
 			config.addDataSourceProperty("prepStmtCacheSize", "250");
 			config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+			
+			
 
 			ds = new HikariDataSource(config);
  
@@ -49,12 +51,18 @@ public class DScreator {
 	}
 	
 	private static Properties getPropsFile() {
+		
+		
+		
 		Properties p = new Properties();
-		String loc = new File("").getAbsolutePath();
+		String loc = "D:\\Programming\\Revature\\Project1\\Project1Demo\\src\\main\\resources\\drippz.props";
 		String targetName = "drippz.props";
-		java.nio.file.Path path = java.nio.file.Paths.get(loc, "src", "main", "resources", targetName);
+//		java.nio.file.Path path = java.nio.file.Paths.get(loc, "src", "main", "resources", targetName);
+		java.nio.file.Path path = java.nio.file.Paths.get(loc);
+		System.out.println(path.toString());
 		if(!java.nio.file.Files.exists(path)) {
 			logger.error("No properties file found in " + path.toString());
+			System.out.println("not here");
 			return p;
 		}
 		String pathString = path.toString();
