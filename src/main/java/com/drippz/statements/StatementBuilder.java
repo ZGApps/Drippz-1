@@ -1,12 +1,10 @@
 package com.drippz.statements;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerFactory;
 
 import com.drippz.classreader.Reader;
 import com.drippz.util.ForeignKeyField;
