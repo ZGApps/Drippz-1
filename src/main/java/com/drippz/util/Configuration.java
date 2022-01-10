@@ -65,7 +65,4 @@ public class Configuration {
 		return true;
 	}
 	
-	public String getMode() {
-		return DScreator.getMode();
-	}
 }
