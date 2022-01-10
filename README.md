@@ -12,6 +12,8 @@
 * HikariCP - version 3.4.5
 * JUnit - version 4.12
 * log4j - version 1.2.17
+* Maven - version 1.8
+* SonarCloud - for code monitoring
 
 ## Features
 
