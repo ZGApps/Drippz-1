@@ -46,7 +46,7 @@ public class StatementBuilderTests {
 	public void aTestcreateGetStatementWorks() {
 		// String opperation, List<String> targets, HashMap<String, String> options, MetaModel<?> meta
 		targets.add("*");
-		String expectedResult = "SELECT * FROM employees";
+		String expectedResult = "SELECT * FROM employees;";
 		String givenResult = StatementBuilder.createGetStatement(targets, options, meta);
 		
 		assertEquals(expectedResult, givenResult);
@@ -56,7 +56,7 @@ public class StatementBuilderTests {
 	public void aTestCreateGetStatementFields() {
 		targets.add("first_name");
 		targets.add("last_name");
-		String expectedResult = "SELECT first_name, last_name FROM employees";
+		String expectedResult = "SELECT first_name, last_name FROM employees;";
 		String givenResult = StatementBuilder.createGetStatement(targets, options, meta);
 		
 		assertEquals(expectedResult, givenResult);
@@ -66,7 +66,7 @@ public class StatementBuilderTests {
 	public void aTestCreateGetStatementOptions() {
 		targets.add("*");
 		options.put("id", "1");
-		String expectedResult = "SELECT * FROM employees WHERE id = 1";
+		String expectedResult = "SELECT * FROM employees WHERE id = 1;";
 		String givenResult = StatementBuilder.createGetStatement(targets, options, meta);
 		assertEquals(expectedResult, givenResult);
 	}
@@ -77,7 +77,7 @@ public class StatementBuilderTests {
 		targets.add("last_name");
 		options.put("first_name", "John");
 		options.put("last_name", "Smith");
-		String expectedResult = "SELECT first_name, last_name FROM employees WHERE first_name = John, last_name = Smith";
+		String expectedResult = "SELECT first_name, last_name FROM employees WHERE first_name = John, last_name = Smith;";
 		String givenResult = StatementBuilder.createGetStatement(targets, options, meta);
 		assertEquals(expectedResult, givenResult);
 	}
