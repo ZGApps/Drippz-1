@@ -73,59 +73,59 @@ Finally, inside your project structure you need a drippz.props file in located s
   ### User API  
   
   - #### `Dripp drippObjectName = new Dripp();`  
-     	- returns an object of the main class allowing access to the below methods
-     	- each object of the class has it's own cache that is used automatically when retrieving data from the DB
+	- returns an object of the main class allowing access to the below methods
+	- each object of the class has it's own cache that is used automatically when retrieving data from the DB
 	- holds a StringBuilder that holds the created SQL statement
 	
   - #### `drippObjectName.beginTX();`  
-     	- Returns Void
+	- Returns Void
 	- adds the opening of a transaction to the object's SQL statement
 	
   - #### `drippObjectName.commit();`  
-     	- Returns Void
+	- Returns Void
 	- adds the closing of a transaction to the object's SQL statement	
 	
   - #### `drippObjectName.runTxUpdate();`  
-     	- Returns Void
+	- Returns Void
 	- sends the statement currently held in the Dripp object to the Database
 	- No return expected
 	- Throws SQL Exception
 
   - #### `drippObjectName.runTxQuery();`
-     	- Returns ResultSet
+	- Returns ResultSet
 	- sends the statement currently held in the Dripp object to the Database
 	- Expects a result
 	- Throws SQL Exception
 	
   - #### `drippObjectName.create(annotatedClass.class);`  
-     	- Returns Void
+	- Returns Void
 	- Must be preceded by drippObjectName.beginTx(); and followed by drippObjectName.commit(); send with runTxUpdate()
 	- adds a drop statement for a table of the name given in the annotatedClass and then adds a statement createing a table based on the fields in the annotated class
-     	- All classes to be persisted must have the @Entity Tag and a defined entityName in the annotation which is extracted to be the table name
-     	- All properties to be persisted must have the @Column Tag and a defined columnName in the annotation which is extracted to be the name of the columm	
+	- All classes to be persisted must have the @Entity Tag and a defined entityName in the annotation which is extracted to be the table name
+	- All properties to be persisted must have the @Column Tag and a defined columnName in the annotation which is extracted to be the name of the columm	
  
   - #### `drippObjectName.get(annotatedClass.class, listOfTargetFields, linkedHashMapOfConstraints);`  
-     	- Returns a ResultSet corresponding to the GET method being run with the list of target fields and the constraints provided
+	- Returns a ResultSet corresponding to the GET method being run with the list of target fields and the constraints provided
 	- do not use with transaction send with runTxQuery();
 	- adds a get statement to t
-     	- All classes to be persisted must have the Entity Tag and a defined table name this name is extracted to target the GET
-     	- A list of strings containing the DB column names to be returned (A single entry of "*" will return all columns)
-     	- A LinkedHashMap containing the property name as a key and the value to search for as the value. Range searching is not implemented, only equals
+	- All classes to be persisted must have the Entity Tag and a defined table name this name is extracted to target the GET
+	- A list of strings containing the DB column names to be returned (A single entry of "*" will return all columns)\
+	- A LinkedHashMap containing the property name as a key and the value to search for as the value. Range searching is not implemented, only equals
 	- Throws IllegalArgumentException or IllegalAccessException
 	
-  - #### `drippObjectName.insert(objectOfAnnotatedClass);`  
-     	- Returns id in ResultSet
+  - #### `drippObjectName.insert(objectOfAnnotatedClass);`
+	- Returns id in ResultSet
 	- do not use with transaction send with runTxQuery();
 	- Creates SQL statement to insert object into matching table
-     	- id field will be filled by the database upon persistance, and will not be taken from object
-     	- All annotated fields will be persisted to the database
+	- id field will be filled by the database upon persistance, and will not be taken from object
+	- All annotated fields will be persisted to the database
 	- Throws IllegalArgumentException or IllegalAccessException
 	
-  - #### `drippObjectName.modify(objectOfAnnotatedClass, List<String> targetFields);`  
-     	- Returns number of collumns modified in resultset
+  - #### `drippObjectName.modify(objectOfAnnotatedClass, List<String> targetFields);` 
+	- Returns number of collumns modified in resultset
 	- do not use with transaction send with runTxQuery();
-     	- id field will determine target row in database upon persistance
-     	- All fields listed in List<String> targetFields will be updated to values in objectOfAnnotatedClass
+	- id field will determine target row in database upon persistance
+	- All fields listed in List<String> targetFields will be updated to values in objectOfAnnotatedClass
 	- Throws IllegalArgumentException or IllegalAccessException or NoSuchFieldException or SecurityException
 
 
